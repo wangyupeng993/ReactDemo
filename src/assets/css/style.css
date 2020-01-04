@@ -1,0 +1,18 @@
+.el-scrollbar{
+    height:100%;
+}
+.el-scrollbar .el-scrollbar__wrap {
+    overflow-y: scroll !important;
+    overflow-x: hidden !important;
+}
+.el-menu{
+    border-right:solid 1px rgba(48, 65, 86,0) !important;
+}
+.el-menu .el-menu-item-group{
+    overflow: hidden;
+}
+
+.el-dialog{
+    box-shadow: none;
+}
+

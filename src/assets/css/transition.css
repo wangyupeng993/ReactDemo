@@ -1,0 +1,28 @@
+/* 组件进入 */
+.sideslipleft-enter,.sideslipleft-leave-to{
+  transform: translateX(-100%);
+}
+.sideslipleft-enter-to,.sideslipleft-leave{
+  transform: translateX(0);
+}
+.sideslipleft-enter-active{
+  transition:0.5s;
+}
+.sideslipleft-leave-active{
+  transition:0.2s;
+}
+
+.sideslipright-enter,.sideslipright-leave-to{
+  transform: translateX(100%);
+}
+.sideslipright-enter-to,.sideslipright-leave{
+  transform: translateX(0);
+}
+.sideslipright-enter-active{
+  transition:0.5s;
+}
+.sideslipright-leave-active{
+  transition:0.2s;
+}
+
+
