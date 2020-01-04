@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
-import './assets/css/icon.css';
-import './assets/css/main.css';
-import './assets/css/public.css';
-import './assets/css/style.css';
-import './assets/css/transition.css';
+import Title from "./components/title";
 
 class App extends Component {
   render() {
     return (
-      <div className="app-main"><i className="cuIcon-mobilefill"></i></div>
+      <div className="app-main"><Title title={'我是模块化组件！！！'} /></div>
     );
   }
 }

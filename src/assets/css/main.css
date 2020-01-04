@@ -51,19 +51,19 @@
 }
 
 
-.text-size-xs{
+.text-xs{
     font-size:14px !important;
 }
-.text-size-sl{
+.text-sm{
     font-size:18px !important;
 }
-.text-size-sm{
+.text-sl{
     font-size:24px !important;
 }
-.text-size-lg{
+.text-lg{
     font-size:30px !important;
 }
-.text-size-xl{
+.text-xl{
     font-size:36px !important;
 }
 
