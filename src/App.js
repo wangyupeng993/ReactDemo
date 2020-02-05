@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {BrowserRouter as Router} from 'react-router-dom';
 import Title from "./components/title";
 
 class App extends Component {
@@ -16,14 +17,16 @@ class App extends Component {
   }
   render() {
     return (
-      <React.Fragment>
-        <div className="app-main">
-          <Title title={this.state.title} /><br />
-          <button onClick={this.handle} className='padding-lr-sm padding-tb-xs text-sm margin-tb-xs'>
-            更改title值
-          </button>
-        </div>
-      </React.Fragment>
+        <Router>
+          <React.Fragment>
+            <div className="app-main">
+              <Title title={this.state.title} /><br />
+              <button onClick={this.handle} className='padding-lr-sm padding-tb-xs text-sm margin-tb-xs'>
+                更改title值
+              </button>
+            </div>
+          </React.Fragment>
+        </Router>
     );
   }
 }
