@@ -1,12 +1,24 @@
 import React,{Component} from 'react';
-// import {BrowerRouter,Router, Route} from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 
 class SideBar extends Component {
     constructor (props) {
         super(props)
+        this.state = {}
     }
     render () {
-        return <div className='basis-xs'>侧边导航栏</div>
+        const {routes} = this.props
+        return (
+            <ul className={'basis-xs bg-darkblue hidden'} style={{maxWidth: '220px'}}>
+                {routes.filter(item => !item.hidden).map(item => {
+                    return <li className={'padding-xs'} key={item.path}>
+                        <NavLink className={'text-white'} to={item.path}>
+                            {item.meta.name}
+                        </NavLink>
+                    </li>
+                })}
+            </ul>
+        )
     }
 }
 
