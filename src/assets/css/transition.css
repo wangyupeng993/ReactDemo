@@ -1,28 +1,27 @@
-/* 组件进入 */
-.sideslipleft-enter,.sideslipleft-leave-to{
-  transform: translateX(-100%);
-}
-.sideslipleft-enter-to,.sideslipleft-leave{
-  transform: translateX(0);
-}
-.sideslipleft-enter-active{
-  transition:0.5s;
-}
-.sideslipleft-leave-active{
-  transition:0.2s;
+.fade-height-init{
+    height:0;
+    overflow: hidden;
+    transition:500ms;
 }
 
-.sideslipright-enter,.sideslipright-leave-to{
-  transform: translateX(100%);
-}
-.sideslipright-enter-to,.sideslipright-leave{
-  transform: translateX(0);
-}
-.sideslipright-enter-active{
-  transition:0.5s;
-}
-.sideslipright-leave-active{
-  transition:0.2s;
+.fade-height-entered{
+    height:auto;
 }
 
+.fade-height-exited{
+    height:0;
+}
+
+.fade-rotate90-init{
+    transform: rotate(0deg);
+    transition:500ms;
+}
+
+.fade-rotate90-entered{
+    transform: rotate(-90deg);
+}
+
+.fade-rotate90-exited{
+    transform: rotate(0deg);
+}
 

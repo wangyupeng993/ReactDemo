@@ -5,7 +5,7 @@ import './assets/css/main.css';
 import './assets/css/public.css';
 import './assets/css/style.css';
 import './assets/css/transition.css';
-import App from './views/layout/layout'
+import App from './views/layout/layout';
 
 import * as serviceWorker from './serviceWorker';
 
