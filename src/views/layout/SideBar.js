@@ -15,19 +15,16 @@ class SideBar extends Component {
 
     // 在render之前更新，改变state，如不改变则返回null
     static getDerivedStateFromProps (nextProps, nextState) {
-        console.log('getDerivedStateFromProps ——> 改变state')
         return null
     }
 
     // 用于优化性能，返回一个Boolean值，true组件正在正常更新，false 后面的生命周期都不会执行，视图也就不会更新了
     shouldComponentUpdate(nextProps, nextState, nextContext) {
-        console.log('shouldComponentUpdate ——> 优化性能，比较值是否有改变')
-        return true
+        return nextState.parentURL !== this.state.parentURL
     }
 
     // 获取虚拟DEMO结构计算结果，这时浏览器还未更新DEMO
     getSnapshotBeforeUpdate(prevProps, prevState) {
-        console.log('getSnapshotBeforeUpdate ——> 获取虚拟DEMO结构计算结果，这时浏览器还未更新DEMO')
         return null
     }
 
@@ -40,22 +37,15 @@ class SideBar extends Component {
     }*/
 
     // DEMO已经渲染完成了。只执行一次
-    componentDidMount() {
-        console.log('componentDidMount ——> DEMO已经渲染完成了')
-    }
+    componentDidMount() {}
 
     //组件卸载和数据的销毁
-    componentWillUnmount () {
-        console.log('组件卸载和数据的销毁')
-    }
+    componentWillUnmount () {}
 
     // 捕获子组件抛出的错误
-    componentDidCatch(error, errorInfo) {
-        console.log(error, errorInfo,'error=====================')
-    }
+    componentDidCatch(error, errorInfo) {}
 
     showChildRouter = (path) => {
-        console.log(path)
         this.setState({
             parentURL:path
         })
@@ -68,7 +58,7 @@ class SideBar extends Component {
             <ul className={'basis-xs bg-darkblue hidden'} style={{maxWidth: '220px'}}>
                 {routes.filter(item => !item.hidden).map(item => {
                     return !item.children ? <li key={item.path} onClick={() => {
-                        this.showChildRouter(parentURL === '' ? item.path : '')
+                        this.showChildRouter('')
                     }}>
                         <Transition timeout={0}>
                             <NavLink className={'text-grey block padding-xs'} to={item.path}
@@ -80,10 +70,9 @@ class SideBar extends Component {
                         <p className={'flex padding-tb-xs'} onClick={() => {
                             this.showChildRouter(parentURL === '' ? item.path : '')
                         }}>
-                            <span className={'basis-xl'}>{item.meta.name}</span>
+                            <span className={`basis-xl ${parentURL === item.path?'text-white': ''}`}>{item.meta.name}</span>
                             <Transition timeout={0} in={parentURL === item.path} enter={false} exit={false}>{
                                 (status) => {
-                                    console.log(status)
                                     return (<i className={`basis-xs text-sm ${item.meta.icon} flex items-center justify-center fade-rotate90-init fade-rotate90-${status}`}></i>)
                                 }
                             }</Transition>

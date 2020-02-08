@@ -1,14 +1,17 @@
 .fade-height-init{
     height:0;
     overflow: hidden;
+    opacity: 0;
     transition:500ms;
 }
 
 .fade-height-entered{
+    opacity: 1;
     height:auto;
 }
 
 .fade-height-exited{
+    opacity: 0;
     height:0;
 }
 
@@ -18,7 +21,7 @@
 }
 
 .fade-rotate90-entered{
-    transform: rotate(-90deg);
+    transform: rotate(90deg);
 }
 
 .fade-rotate90-exited{

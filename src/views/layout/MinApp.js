@@ -1,10 +1,12 @@
 import React,{Component} from 'react';
 import {Route, Switch, Redirect} from 'react-router-dom';
+import store from "../../redux/redux";
 
 class MinApp extends Component {
     constructor (props) {
         super(props)
         this.state = {}
+        console.log(store.getState())
     }
 
     // 设定默认值
@@ -63,9 +65,10 @@ class MinApp extends Component {
                                 () => <Redirect to={item.redirect} />
                             } key={item.path} />
                         } else {
-                            return <Route exact path={item.path} component={item.component} key={item.path} />
+                            return <Route path={item.path} component={item.component} key={item.path} />
                         }
                     })}
+                    <Redirect to={'/NotFound'} />
                 </Switch>
             </div>
         )
