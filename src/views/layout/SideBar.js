@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
 import {NavLink} from 'react-router-dom';
 import {Transition} from 'react-transition-group';
+import {connect} from 'react-redux';
 
 class SideBar extends Component {
     constructor (props) {
@@ -95,5 +96,17 @@ class SideBar extends Component {
         )
     }
 }
+/*
+* 将需要的state的节点注入到与此视图数据相关的组件上
+* state：redux 数据
+* props：外部组件或者父组件传递过来的数据
+ */
+const mapStateToProps = (state,props) => state
 
-export default SideBar
+// 将需要绑定的响应事件注入到组件上
+const mapDispatchToProps = (dispatch) => {
+    return {}
+}
+
+// 通过connect 链接组件和redux数据，传递state数据和dispatch方法
+export default connect(mapStateToProps,mapDispatchToProps)(SideBar)

@@ -1,12 +1,12 @@
 import React,{Component} from 'react';
 import {Route, Switch, Redirect} from 'react-router-dom';
-import store from "../../redux/redux";
+import {connect} from 'react-redux';
 
 class MinApp extends Component {
     constructor (props) {
         super(props)
         this.state = {}
-        console.log(store.getState())
+        console.log(props,'=======')
     }
 
     // 设定默认值
@@ -75,4 +75,17 @@ class MinApp extends Component {
     }
 }
 
-export default MinApp
+/*
+* 将需要的state的节点注入到与此视图数据相关的组件上
+* state：redux 数据
+* props：外部组件或者父组件传递过来的数据
+ */
+const mapStateToProps = (state,props) => state
+
+// 将需要绑定的响应事件注入到组件上
+const mapDispatchToProps = (dispatch) => {
+    return {}
+}
+
+// 通过connect 链接组件和redux数据，传递state数据和dispatch方法
+export default connect(mapStateToProps,mapDispatchToProps)(MinApp)
