@@ -68,6 +68,14 @@ video{
     height:100%;
 }
 
+.height-inherit{
+    height:inherit;
+}
+
+.width-inherit{
+    width:inherit;
+}
+
 .fl{
     float:left;
 }
@@ -86,15 +94,18 @@ video{
 .block{
     display:block;
 }
+
 .inline-block{
     display:inline-block;
 }
 
 .flex{
     display: flex;
-}.flex-direction{
+}
+
+.flex-direction{
      flex-direction: column;
- }
+}
 
 .flex-wrap-wrap{
     flex-wrap: wrap;

@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {BrowserRouter as Router} from 'react-router-dom';
 import './assets/css/icon.css';
 import './assets/css/main.css';
 import './assets/css/public.css';
@@ -14,7 +15,7 @@ import * as serviceWorker from './serviceWorker';
 // 通过provider 把react 和redux 链接，store 传递到react项目中
 ReactDOM.render(
     <Provider store={store}>
-        <App />
+        <Router><App /></Router>
     </Provider>,
     document.getElementById('root')
 );

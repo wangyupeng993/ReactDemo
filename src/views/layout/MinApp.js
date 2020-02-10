@@ -6,7 +6,6 @@ class MinApp extends Component {
     constructor (props) {
         super(props)
         this.state = {}
-        console.log(props,'=======')
     }
 
     // 设定默认值
