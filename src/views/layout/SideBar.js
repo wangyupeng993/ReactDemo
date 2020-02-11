@@ -56,7 +56,7 @@ class SideBar extends Component {
         const {routes} = this.props
         const {parentURL} = this.state
         return (
-            <ul className={'basis-xs bg-darkblue hidden'} style={{maxWidth: '220px'}}>
+            <ul className={'bg-darkblue'} style={{maxWidth: '220px'}}>
                 {routes.filter(item => !item.hidden).map(item => {
                     return !item.children ? <li key={item.path} onClick={() => {
                         this.showChildRouter('')

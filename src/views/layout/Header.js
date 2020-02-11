@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 
 class Header extends Component {
     render () {
-        return <div className={'padding-sm bg-darkblue text-white'}>头部</div>
+        return <div id={'header'} className={'padding-sm bg-darkblue text-white'}>头部</div>
     }
 }
 

@@ -56,7 +56,7 @@ class MinApp extends Component {
     render () {
         const {routes} = this.props
         return (
-            <div className={'basis-max'}>
+            <div className={''}>
                 <Switch>
                     {routes.map(item => {
                         if (item.redirect) {
