@@ -10,7 +10,9 @@ import {connect} from 'react-redux';
 class App extends Component {
     constructor (props) {
         super(props)
-        this.state = {}
+        this.state = {
+            appHeight: 0
+        }
     }
     // 在render之前更新，改变state，如不改变则返回null
     static getDerivedStateFromProps (nextProps, nextState) {
@@ -19,7 +21,7 @@ class App extends Component {
 
     // 用于优化性能，返回一个Boolean值，true组件正在正常更新，false 后面的生命周期都不会执行，视图也就不会更新了
     shouldComponentUpdate(nextProps, nextState, nextContext) {
-        return nextState.parentURL !== this.state.parentURL
+        return nextState.parentURL !== this.state.parentURL||nextState.appHeight !== this.state.appHeight
     }
 
     // 获取虚拟DEMO结构计算结果，这时浏览器还未更新DEMO
@@ -36,7 +38,13 @@ class App extends Component {
     }*/
 
     // DEMO已经渲染完成了。只执行一次
-    componentDidMount() {}
+    componentDidMount() {
+        const Header = document.querySelector('#header')
+        const Body = document.documentElement
+        this.setState({
+            appHeight: Body.clientHeight - Header.clientHeight
+        })
+    }
 
     //组件卸载和数据的销毁
     componentWillUnmount () {}
@@ -47,8 +55,10 @@ class App extends Component {
         const {pathname} = this.props.location
         return <React.Fragment>
             {pathname !== '/login' && pathname !== '/NotFound' ? <Header /> : ''}
-            <div className={'flex'} style={{height: '93.7%'}}>
-                {pathname !== '/login' && pathname !== '/NotFound' ?  <Scrollbar className={'basis-xs bg-darkblue'}  node={<SideBar routes={routes} />} /> : ''}
+            <div className={'flex hidden'} style={{height: this.state.appHeight}}>
+                {pathname !== '/login' && pathname !== '/NotFound' ? <Scrollbar className={'basis-xs bg-darkblue'}
+                                                                                style={{maxWidth: '220px'}}
+                                                                                node={<SideBar routes={routes} />} /> : ''}
                 <Scrollbar className={'basis-max'} node={ <MinApp routes={routes} />} />
             </div>
         </React.Fragment>

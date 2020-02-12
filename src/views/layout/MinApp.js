@@ -10,23 +10,20 @@ class MinApp extends Component {
 
     // 设定默认值
     // 外部传值进来通过this.props.xxx获取并且不能被内部改变，只能通过外部改变
-    static defaultProps = {title: '这是定义默认值！！！'}
+    static defaultProps = {}
 
     // 在render之前更新，改变state，如不改变则返回null
     static getDerivedStateFromProps (nextProps, nextState) {
-        console.log('getDerivedStateFromProps ——> 改变state')
         return null
     }
 
     // 用于优化性能，返回一个Boolean值，true组件正在正常更新，false 后面的生命周期都不会执行，视图也就不会更新了
     shouldComponentUpdate(nextProps, nextState, nextContext) {
-        console.log('shouldComponentUpdate ——> 优化性能，比较值是否有改变')
         return true
     }
 
     // 获取虚拟DEMO结构计算结果，这时浏览器还未更新DEMO
     getSnapshotBeforeUpdate(prevProps, prevState) {
-        console.log('getSnapshotBeforeUpdate ——> 获取虚拟DEMO结构计算结果，这时浏览器还未更新DEMO')
         return null
     }
 
@@ -39,24 +36,18 @@ class MinApp extends Component {
     }*/
 
     // DEMO已经渲染完成了。只执行一次
-    componentDidMount() {
-        console.log('componentDidMount ——> DEMO已经渲染完成了')
-    }
+    componentDidMount() {}
 
     //组件卸载和数据的销毁
-    componentWillUnmount () {
-        console.log('组件卸载和数据的销毁')
-    }
+    componentWillUnmount () {}
 
     // 捕获子组件抛出的错误
-    componentDidCatch(error, errorInfo) {
-        console.log(error, errorInfo,'error=====================')
-    }
+    componentDidCatch(error, errorInfo) {}
 
     render () {
         const {routes} = this.props
         return (
-            <div className={''}>
+            <div className={''} style={{height: '110vh'}}>
                 <Switch>
                     {routes.map(item => {
                         if (item.redirect) {
