@@ -5,7 +5,7 @@ class Scrollbar extends Component {
         super(props)
         this.state = {
             vertical: '0%',
-            horizontal: 0,
+            horizontal: '0%',
             translateY: 'translateY(0)',
             translateX: 'translateX(0)',
         }
@@ -43,10 +43,7 @@ class Scrollbar extends Component {
     // DEMO已经渲染完成了。只执行一次
     componentDidMount() {
        setTimeout(() => {
-           const Viewport = this.scrollBar.current.offsetHeight
-           const scrollHeight = this.scroll.current.scrollHeight
-           const vertical = Math.ceil((Viewport / scrollHeight) * 100)
-           this.setState({vertical: `${vertical}%`})
+           this.scrollUpdate()
        },50)
     }
 
@@ -56,25 +53,50 @@ class Scrollbar extends Component {
     // 捕获子组件抛出的错误
     componentDidCatch(error, errorInfo) {}
 
+    // 滚动条 宽、高 计算
+    scrollUpdate = () => {
+        const {scrollHeight,clientHeight,scrollWidth,clientWidth} = this.scroll.current
+        const vertical = (clientHeight * 100 / scrollHeight)
+        const horizontal = (clientWidth * 100 / scrollWidth)
+        this.setState({
+            vertical: `${vertical < 100 ? vertical: 0}%`,
+            horizontal: `${horizontal < 100 ? horizontal: 0}%`,
+        })
+    }
+
+    clickThumbHandler = (ev) => {}
+
+    clickTrackHandler = (ev) => {
+        console.log(ev,'========')
+    }
+
     mousewheel = async () => {
-        const scrollTop = this.scroll.current.scrollTop
-        await this.setState({translateY: `translateY(${scrollTop}px)`})
+        const {scrollTop,clientHeight,scrollLeft,clientWidth} = this.scroll.current
+        const translateY = await ((scrollTop * 100) / clientHeight)
+        const translateX = await ((scrollLeft * 100) / clientWidth)
+        await this.setState({
+            translateY: `translateY(${translateY}%)`,
+            translateX: `translateX(${translateX}%)`
+        })
     }
 
     render() {
-        const {translateY,vertical} = this.state
+        const {translateY,vertical,horizontal, translateX} = this.state
         return (<div ref={this.scrollBar} className={`scrollbar ${this.props.className}`} style={this.props.style}>
             <div ref={this.scroll} onScroll={this.mousewheel} className={'scrollbar__wrap padding-bottom-sm'}>
                 {this.props.node}
             </div>
-            <div className={'scrollbar__bar is-horizontal'}>
-                <div className={'scrollbar__thumb'}></div>
+            <div className={'scrollbar__bar is-horizontal'} onMouseDown={this.clickTrackHandler}>
+                <div className={'scrollbar__thumb'} style={{
+                    width: horizontal,
+                    transform: translateX
+                }} onMouseDown={this.clickThumbHandler}></div>
             </div>
-            <div className={'scrollbar__bar is-vertical'}>
+            <div className={'scrollbar__bar is-vertical'} onMouseDown={this.clickTrackHandler}>
                 <div className={'scrollbar__thumb'} style={{
                     height: vertical,
                     transform: translateY
-                }}></div>
+                }} onMouseDown={this.clickThumbHandler}></div>
             </div>
         </div>)
     }
