@@ -3,11 +3,13 @@ import React, {Component} from 'react';
 class Bar extends Component {
     constructor (props) {
         super(props)
-        this.state = {}
-
+        this.state = {
+            cursorDown: false
+        }
         this.thumb = React.createRef()
-        console.log(this.props)
     }
+
+    // 设定默认值
     static defaultProps = {}
 
     // 在render之前更新，改变state，如不改变则返回null
@@ -28,11 +30,6 @@ class Bar extends Component {
     // 组件已经更新完成时调用
     componentDidUpdate(prevProps, prevState, snapshot) {}
 
-    /*// 还未渲染DEMO
-    componentWillMount () {
-        console.log('componentWillMount ——> 还未渲染DEMO时执行')
-    }*/
-
     // DEMO已经渲染完成了。只执行一次
     componentDidMount() {}
 
@@ -42,25 +39,29 @@ class Bar extends Component {
     // 捕获子组件抛出的错误
     componentDidCatch(error, errorInfo) {}
 
-    clickThumbHandler = (ev) => {}
+    clickThumbHandler = (ev) => {
+        if (ev.ctrlKey || ev.button === 2) return;
+        console.log(ev.ctrlKey,'ctrlKey======')
+        console.log(ev.button,'button======')
+    }
 
     // 点击滚动条时追踪
     clickTrackHandler = async (ev) => {
         const {axis,direction,offset,scroll} = this.props
-
         // 获取元素的边距以及鼠标发生事件时的坐标
         const clientOffset = Math.abs(ev.target.getBoundingClientRect()[direction] - ev[`client${axis}`])
         // 获取scrollbar__bar的宽 / 高
         const thumbHalf = await (this.thumb.current[offset] / 2)
-        const thumbPositionPercentage = ((clientOffset - thumbHalf) * 100 / this.props.wrap.current[offset])
-        this.props.wrap.current[scroll] = (thumbPositionPercentage * this.props.wrap.current[offset] / 100)
+        const thumbPositionPercentage = await ((clientOffset - thumbHalf) * 100 / this.props.wrap.current[offset])
+        this.props.wrap.current[scroll] = await  (thumbPositionPercentage * this.props.wrap.current[offset] / 100)
     }
 
     render() {
         const {style,vertical} = this.props
         return (<div className={`scrollbar__bar is-${vertical?'vertical':'horizontal'}`}
-                     onMouseDown={this.clickTrackHandler} >
-            <div ref={this.thumb} className={'scrollbar__thumb'} style={style}></div>
+                     onMouseDown={this.clickTrackHandler}>
+            <div ref={this.thumb} className={'scrollbar__thumb'} style={style}
+                 onMouseDown={this.clickThumbHandler}></div>
         </div>)
     }
 }

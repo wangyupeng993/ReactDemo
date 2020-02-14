@@ -66,23 +66,6 @@ class Scrollbar extends Component {
         })
     }
 
-    clickThumbHandler = (ev) => {}
-
-    // 点击滚动条时追踪
-    clickTrackHandler = async (ev) => {
-        const axis = ev.currentTarget.getAttribute('data-axis')
-        const direction = ev.currentTarget.getAttribute('data-direction')
-        const offset = ev.currentTarget.getAttribute('data-offset')
-        const refs = ev.currentTarget.getAttribute('data-ref')
-        const scroll = ev.currentTarget.getAttribute('data-scroll')
-        // 获取元素的边距以及鼠标发生事件时的坐标
-        const clientOffset = Math.abs(ev.target.getBoundingClientRect()[direction] - ev[`client${axis}`])
-        // 获取scrollbar__bar的宽 / 高
-        const thumbHalf = await (this[refs].current[offset] / 2)
-        const thumbPositionPercentage = ((clientOffset - thumbHalf) * 100 / this.wrap.current[offset])
-        this.wrap.current[scroll] = (thumbPositionPercentage * this.wrap.current[offset] / 100)
-    }
-
     mousewheel = async () => {
         const {scrollTop,clientHeight,scrollLeft,clientWidth} = this.wrap.current
         const translateY = await ((scrollTop * 100) / clientHeight)
@@ -104,29 +87,11 @@ class Scrollbar extends Component {
                  offset={'offsetHeight'} scroll={'scrollTop'}
                  update={this.scrollUpdate}
                  style={{transform: translateY,height: vertical}} />
+
             <Bar wrap={this.wrap} axis={'X'} direction={'left'}
                  offset={'offsetWidth'} scroll={'scrollLeft'}
                  update={this.scrollUpdate}
                  style={{transform: translateX,width: horizontal}} />
-
-            {/*<div className={'scrollbar__bar is-horizontal'} data-axis={'X'} data-direction={'left'}
-                 data-offset={'offsetWidth'} data-ref={'thumbHorizontal'} data-scroll={'scrollLeft'}
-                 onMouseDown={this.clickTrackHandler}>
-                <div ref={this.thumbHorizontal} className={'scrollbar__thumb'} style={{
-                    width: horizontal,
-                    transform: translateX
-                }} data-axis={'X'} data-direction={'left'}
-                 onMouseDown={this.clickThumbHandler}></div>
-            </div>*/}
-            {/*<div className={'scrollbar__bar is-vertical'} data-axis={'Y'} data-direction={'top'}
-                 data-offset={'offsetHeight'} data-ref={'thumbVertical'} data-scroll={'scrollTop'}
-                 onMouseDown={this.clickTrackHandler}>
-                <div ref={this.thumbVertical} className={'scrollbar__thumb'} style={{
-                    height: vertical,
-                    transform: translateY
-                }} data-axis={'Y'} data-direction={'top'}
-                 onMouseDown={this.clickThumbHandler}></div>
-            </div>*/}
         </div>)
     }
 }
