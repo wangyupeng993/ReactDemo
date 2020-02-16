@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import {on,off} from "../../api/dom";
+import {BAR_MAP} from "./utils";
 
 class Bar extends Component {
     constructor (props) {
@@ -34,26 +36,67 @@ class Bar extends Component {
     componentDidMount() {}
 
     //组件卸载和数据的销毁
-    componentWillUnmount () {}
+    componentWillUnmount () {
+        off(document,'mouseup',this.mouseUpDocumentHandler)
+    }
 
     // 捕获子组件抛出的错误
     componentDidCatch(error, errorInfo) {}
 
+    bar = () => {
+        const {vertical} = this.props
+        return vertical ? BAR_MAP['vertical']:BAR_MAP['horizontal']
+    }
+
     clickThumbHandler = (ev) => {
+        const {offset,axis,direction} =  this.bar()
         if (ev.ctrlKey || ev.button === 2) return;
-        console.log(ev.ctrlKey,'ctrlKey======')
-        console.log(ev.button,'button======')
+        this.startDrag(ev)
+        this[axis] = (ev.currentTarget[offset] - (ev[`client${axis}`] - ev.currentTarget.getBoundingClientRect()[direction]))
     }
 
     // 点击滚动条时追踪
     clickTrackHandler = async (ev) => {
-        const {axis,direction,offset,scroll} = this.props
-        // 获取元素的边距以及鼠标发生事件时的坐标
+        const {axis,direction,offset,scroll} = this.bar()
+        // 取绝对值：Math.abs（元素的边距 - 事件发生时的坐标）
         const clientOffset = Math.abs(ev.target.getBoundingClientRect()[direction] - ev[`client${axis}`])
-        // 获取scrollbar__bar的宽 / 高
+        // 获取scrollbar__bar的宽 、 高
         const thumbHalf = await (this.thumb.current[offset] / 2)
         const thumbPositionPercentage = await ((clientOffset - thumbHalf) * 100 / this.props.wrap.current[offset])
-        this.props.wrap.current[scroll] = await  (thumbPositionPercentage * this.props.wrap.current[offset] / 100)
+        this.props.wrap.current[scroll] = await (thumbPositionPercentage * this.props.wrap.current[offset] / 100)
+    }
+
+    // 开始拖拽
+    startDrag = async (ev) => {
+        await ev.stopPropagation()
+        await this.setState({
+            cursorDown: true
+        })
+        await on(document, 'mousemove', this.mouseMoveDocumentHandler)
+        await on(document, 'mouseup', this.mouseUpDocumentHandler)
+        document.onselectstart = () => false
+    }
+
+    // 鼠标开始移动
+    mouseMoveDocumentHandler = (ev) => {
+        if (!this.state.cursorDown) return false
+        const {axis,direction,scroll,scrollSize} = this.bar()
+        const prevPage = this[axis]
+        if (!prevPage) return false
+        const offset = ((this.props.wrap.current.getBoundingClientRect()[direction] - ev[`client${axis}`]) * -1)
+        const thumbClickPosition = (this.thumb.current[this.bar().offset] - prevPage)
+        const thumbPositionPercentage = ((offset - thumbClickPosition) * 100 / this.props.wrap.current[ this.bar().offset])
+        this.props.wrap.current[scroll] = (thumbPositionPercentage * this.props.wrap.current[scrollSize] / 100)
+    }
+
+    // 鼠标抬起
+    mouseUpDocumentHandler = async (ev) => {
+        this[this.props.axis] = 0
+        await this.setState({
+            cursorDown: false
+        })
+        await off(document,'mousemove', this.mouseMoveDocumentHandler)
+        document.onselectstart = null
     }
 
     render() {

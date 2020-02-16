@@ -12,7 +12,6 @@ class Scrollbar extends Component {
         }
         this.scrollBar = React.createRef()
         this.wrap = React.createRef()
-        this.thumbHorizontal = React.createRef()
     }
     static defaultProps = {
         node: '',
@@ -57,13 +56,15 @@ class Scrollbar extends Component {
 
     // 滚动条 宽、高 计算
     scrollUpdate = () => {
-        const {scrollHeight,clientHeight,scrollWidth,clientWidth} = this.wrap.current
-        const vertical = (clientHeight * 100 / scrollHeight)
-        const horizontal = (clientWidth * 100 / scrollWidth)
-        this.setState({
-            vertical: `${vertical < 100 ? vertical: 0}%`,
-            horizontal: `${horizontal < 100 ? horizontal: 0}%`,
-        })
+        if (this.wrap && this.wrap.current !== null) {
+            const {scrollHeight,clientHeight,scrollWidth,clientWidth} = this.wrap.current
+            const vertical = (clientHeight * 100 / scrollHeight)
+            const horizontal = (clientWidth * 100 / scrollWidth)
+            this.setState({
+                vertical: `${vertical < 100 ? vertical: 0}%`,
+                horizontal: `${horizontal < 100 ? horizontal: 0}%`,
+            })
+        }
     }
 
     mousewheel = async () => {
@@ -83,14 +84,10 @@ class Scrollbar extends Component {
                 {this.props.node}
             </div>
 
-            <Bar wrap={this.wrap} vertical axis={'Y'} direction={'top'}
-                 offset={'offsetHeight'} scroll={'scrollTop'}
-                 update={this.scrollUpdate}
+            <Bar wrap={this.wrap} vertical update={this.scrollUpdate}
                  style={{transform: translateY,height: vertical}} />
 
-            <Bar wrap={this.wrap} axis={'X'} direction={'left'}
-                 offset={'offsetWidth'} scroll={'scrollLeft'}
-                 update={this.scrollUpdate}
+            <Bar wrap={this.wrap} update={this.scrollUpdate}
                  style={{transform: translateX,width: horizontal}} />
         </div>)
     }

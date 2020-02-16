@@ -2,7 +2,7 @@
     height:0;
     overflow: hidden;
     opacity: 0;
-    transition:500ms;
+    transition:500ms ease-out;
 }
 
 .fade-height-entered{
@@ -17,7 +17,7 @@
 
 .fade-rotate90-init{
     transform: rotate(0deg);
-    transition:500ms;
+    transition:500ms ease-out;
 }
 
 .fade-rotate90-entered{
@@ -26,5 +26,18 @@
 
 .fade-rotate90-exited{
     transform: rotate(0deg);
+}
+
+.fade-opacity-init{
+    opacity:0;
+    transition: opacity 300ms ease-out;
+}
+
+.fade-opacity-entered{
+    opacity:1;
+}
+
+.fade-opacity-exited{
+    opacity:0;
 }
 

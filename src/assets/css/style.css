@@ -44,20 +44,20 @@
 
 
 
-/* 滚动条整体部分 */
+/*!* 滚动条整体部分 *!
 .scrollbar::-webkit-scrollbar{
     width:6px;
     height:12px;
     background-color:#d2f1f0;
 }
 
-/* 滚动条里面的小方块，能向上向下移动（或往左往右移动，取决于是垂直滚动条还是水平滚动条） */
+!* 滚动条里面的小方块，能向上向下移动（或往左往右移动，取决于是垂直滚动条还是水平滚动条） *!
 .scrollbar::-webkit-scrollbar-track{
     background-color: #FFFFFF;
     border-radius:6px;
 }
 
-/* 滚动条的轨道（里面装有Thumb） */
+!* 滚动条的轨道（里面装有Thumb） *!
 .scrollbar::-webkit-scrollbar-thumb{
     opacity: 0;
     background-color:#e7ebed;
@@ -69,7 +69,7 @@
     opacity:1;
 }
 
-/* 边角，即两个滚动条的交汇处 */
+!* 边角，即两个滚动条的交汇处 *!
 .scrollbar::-webkit-scrollbar-corner{
     opacity:0;
-}
+}*/

@@ -47,20 +47,18 @@ class MinApp extends Component {
     render () {
         const {routes} = this.props
         return (
-            <div className={''} style={{height: '110vh'}}>
-                <Switch>
-                    {routes.map(item => {
-                        if (item.redirect) {
-                            return <Route exact path={item.path} render={
-                                () => <Redirect to={item.redirect} />
-                            } key={item.path} />
-                        } else {
-                            return <Route path={item.path} component={item.component} key={item.path} />
-                        }
-                    })}
-                    <Redirect to={'/NotFound'} />
-                </Switch>
-            </div>
+            <Switch>
+                {routes.map(item => {
+                    if (item.redirect) {
+                        return <Route exact path={item.path} render={
+                            () => <Redirect to={item.redirect} />
+                        } key={item.path} />
+                    } else {
+                        return <Route path={item.path} component={item.component} key={item.path} />
+                    }
+                })}
+                <Redirect to={'/NotFound'} />
+            </Switch>
         )
     }
 }
