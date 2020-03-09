@@ -9,8 +9,8 @@ class Scrollbar extends Component {
             horizontal: '0%',
             translateY: 'translateY(0)',
             translateX: 'translateX(0)',
+            isUpdate: true
         }
-        this.scrollBar = React.createRef()
         this.wrap = React.createRef()
     }
     static defaultProps = {
@@ -30,23 +30,17 @@ class Scrollbar extends Component {
 
     // 获取虚拟DEMO结构计算结果，这时浏览器还未更新DEMO
     getSnapshotBeforeUpdate(prevProps, prevState) {
-        return null
+        return prevState
     }
 
     // 组件已经更新完成时调用
-    componentDidUpdate(prevProps, prevState, snapshot) {}
-
-    /*// 还未渲染DEMO
-    componentWillMount () {
-        console.log('componentWillMount ——> 还未渲染DEMO时执行')
-    }*/
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const {isUpdate} = this.state
+        if (isUpdate) this.scrollUpdate()
+    }
 
     // DEMO已经渲染完成了。只执行一次
-    componentDidMount() {
-       setTimeout(() => {
-           this.scrollUpdate()
-       },50)
-    }
+    componentDidMount() {}
 
     //组件卸载和数据的销毁
     componentWillUnmount () {}
@@ -56,15 +50,14 @@ class Scrollbar extends Component {
 
     // 滚动条 宽、高 计算
     scrollUpdate = () => {
-        if (this.wrap && this.wrap.current !== null) {
-            const {scrollHeight,clientHeight,scrollWidth,clientWidth} = this.wrap.current
-            const vertical = (clientHeight * 100 / scrollHeight)
-            const horizontal = (clientWidth * 100 / scrollWidth)
-            this.setState({
-                vertical: `${vertical < 100 ? vertical: 0}%`,
-                horizontal: `${horizontal < 100 ? horizontal: 0}%`,
-            })
-        }
+        const {scrollHeight,clientHeight,scrollWidth,clientWidth} = this.wrap.current
+        const vertical = (clientHeight * 100 / scrollHeight)
+        const horizontal = (clientWidth * 100 / scrollWidth)
+        this.setState({
+            vertical: `${vertical < 100 ? vertical: 0}%`,
+            horizontal: `${horizontal < 100 ? horizontal: 0}%`,
+            isUpdate: false
+        })
     }
 
     mousewheel = async () => {
@@ -79,7 +72,8 @@ class Scrollbar extends Component {
 
     render() {
         const {translateY,vertical,horizontal, translateX} = this.state
-        return (<div ref={this.scrollBar} className={`scrollbar ${this.props.className}`} style={this.props.style}>
+        const {className,style} = this.props
+        return (<div className={`scrollbar ${className}`} style={style}>
             <div ref={this.wrap} onScroll={this.mousewheel} className={'scrollbar__wrap padding-bottom-sm'}>
                 {this.props.node}
             </div>

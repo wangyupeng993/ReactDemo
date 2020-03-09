@@ -6,6 +6,7 @@ class Header extends Component {
     constructor (props) {
         super(props)
         this.state = {}
+        this.header = React.createRef()
     }
     // 在render之前更新，改变state，如不改变则返回null
     static getDerivedStateFromProps (nextProps, nextState) {
@@ -31,7 +32,9 @@ class Header extends Component {
     }*/
 
     // DEMO已经渲染完成了。只执行一次
-    componentDidMount() {}
+    componentDidMount() {
+        this.props.onRef(this.header)
+    }
 
     //组件卸载和数据的销毁
     componentWillUnmount () {}
@@ -39,7 +42,7 @@ class Header extends Component {
     // 捕获子组件抛出的错误
     componentDidCatch(error, errorInfo) {}
     render () {
-        return <div id={'header'} style={{padding: '20px'}} className={'bg-darkblue text-white'}>头部</div>
+        return <div ref={this.header} id={'header'} style={{padding: '20px'}} className={'bg-darkblue text-white'}>头部</div>
     }
 }
 

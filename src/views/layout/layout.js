@@ -12,8 +12,11 @@ class App extends Component {
         super(props)
         this.state = {
             offset: 0,
-            fadeIn: false
+            fadeIn: false,
+            isCompute: true
         }
+        this.header = React.createRef()
+        this.container = React.createRef()
     }
     // 在render之前更新，改变state，如不改变则返回null
     static getDerivedStateFromProps (nextProps, nextState) {
@@ -31,25 +34,13 @@ class App extends Component {
     }
 
     // 组件已经更新完成时调用
-    componentDidUpdate(prevProps, prevState, snapshot) {}
-
-    /*// 还未渲染DEMO
-    componentWillMount () {
-        console.log('componentWillMount ——> 还未渲染DEMO时执行')
-    }*/
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const {isCompute} = this.state
+        if (isCompute) this.computeMinAppHeigth()
+    }
 
     // DEMO已经渲染完成了。只执行一次
-    componentDidMount() {
-        window.onload = () => {
-            if (document.querySelector('#header') !== null) {
-                const Header = document.querySelector('#header')
-                const Body = document.documentElement
-                this.setState({
-                    offset: Body.clientHeight - Header.clientHeight
-                })
-            }
-        }
-    }
+    componentDidMount() {}
 
     //组件卸载和数据的销毁
     componentWillUnmount () {}
@@ -57,12 +48,19 @@ class App extends Component {
     // 捕获子组件抛出的错误
     componentDidCatch(error, errorInfo) {}
 
+    // 计算 容器的高
+    computeMinAppHeigth () {
+        const offset = (document.documentElement.clientHeight - this.header.current.clientHeight)
+        this.container.current.style.height = offset
+        this.setState({isCompute: false})
+    }
+
     render () {
         const {pathname} = this.props.location
         return <React.Fragment>{
             pathname !== '/login' && pathname !== '/NotFound' ? <React.Fragment>
-                <Header />
-                <div className={'flex hidden'} style={{height: this.state.offset}}>
+                <Header onRef={ header => this.header = header} />
+                <div ref={this.container} className={'flex hidden'} style={{height: this.state.offset}}>
                     <Scrollbar className={'basis-xs bg-darkblue'}
                                style={{maxWidth: '220px'}}
                                node={<SideBar routes={routes} />} />
