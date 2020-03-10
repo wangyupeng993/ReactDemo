@@ -12,8 +12,7 @@ class App extends Component {
         super(props)
         this.state = {
             offset: 0,
-            fadeIn: false,
-            isCompute: true
+            fadeIn: false
         }
         this.header = React.createRef()
         this.container = React.createRef()
@@ -34,13 +33,12 @@ class App extends Component {
     }
 
     // 组件已经更新完成时调用
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        const {isCompute} = this.state
-        if (isCompute) this.computeMinAppHeigth()
-    }
+    componentDidUpdate(prevProps, prevState, snapshot) {}
 
     // DEMO已经渲染完成了。只执行一次
-    componentDidMount() {}
+    componentDidMount() {
+        window.onload = () => this.computeMinAppHeigth()
+    }
 
     //组件卸载和数据的销毁
     componentWillUnmount () {}
@@ -49,18 +47,18 @@ class App extends Component {
     componentDidCatch(error, errorInfo) {}
 
     // 计算 容器的高
-    computeMinAppHeigth () {
-        const offset = (document.documentElement.clientHeight - this.header.current.clientHeight)
-        this.container.current.style.height = offset
-        this.setState({isCompute: false})
+    async computeMinAppHeigth () {
+        const offset = await (document.documentElement.clientHeight - this.header.current.clientHeight)
+        await this.setState({offset})
     }
 
     render () {
         const {pathname} = this.props.location
+        const {offset} = this.state
         return <React.Fragment>{
             pathname !== '/login' && pathname !== '/NotFound' ? <React.Fragment>
                 <Header onRef={ header => this.header = header} />
-                <div ref={this.container} className={'flex hidden'} style={{height: this.state.offset}}>
+                <div ref={this.container} className={'flex hidden'} style={{height: `${offset}px`}}>
                     <Scrollbar className={'basis-xs bg-darkblue'}
                                style={{maxWidth: '220px'}}
                                node={<SideBar routes={routes} />} />

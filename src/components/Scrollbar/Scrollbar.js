@@ -49,11 +49,11 @@ class Scrollbar extends Component {
     componentDidCatch(error, errorInfo) {}
 
     // 滚动条 宽、高 计算
-    scrollUpdate = () => {
+    scrollUpdate = async () => {
         const {scrollHeight,clientHeight,scrollWidth,clientWidth} = this.wrap.current
-        const vertical = (clientHeight * 100 / scrollHeight)
-        const horizontal = (clientWidth * 100 / scrollWidth)
-        this.setState({
+        const vertical = await (clientHeight * 100 / scrollHeight)
+        const horizontal = await (clientWidth * 100 / scrollWidth)
+        await this.setState({
             vertical: `${vertical < 100 ? vertical: 0}%`,
             horizontal: `${horizontal < 100 ? horizontal: 0}%`,
             isUpdate: false

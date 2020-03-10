@@ -26,11 +26,6 @@ class Header extends Component {
     // 组件已经更新完成时调用
     componentDidUpdate(prevProps, prevState, snapshot) {}
 
-    /*// 还未渲染DEMO
-    componentWillMount () {
-        console.log('componentWillMount ——> 还未渲染DEMO时执行')
-    }*/
-
     // DEMO已经渲染完成了。只执行一次
     componentDidMount() {
         this.props.onRef(this.header)
@@ -41,8 +36,9 @@ class Header extends Component {
 
     // 捕获子组件抛出的错误
     componentDidCatch(error, errorInfo) {}
+
     render () {
-        return <div ref={this.header} id={'header'} style={{padding: '20px'}} className={'bg-darkblue text-white'}>头部</div>
+        return <div ref={this.header} className={'bg-darkblue padding-sm text-white'}>头部</div>
     }
 }
 
