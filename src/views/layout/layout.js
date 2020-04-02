@@ -36,9 +36,7 @@ class App extends Component {
     componentDidUpdate(prevProps, prevState, snapshot) {}
 
     // DEMO已经渲染完成了。只执行一次
-    componentDidMount() {
-        window.onload = () => this.computeMinAppHeigth()
-    }
+    componentDidMount() {}
 
     //组件卸载和数据的销毁
     componentWillUnmount () {}
@@ -46,23 +44,18 @@ class App extends Component {
     // 捕获子组件抛出的错误
     componentDidCatch(error, errorInfo) {}
 
-    // 计算 容器的高
-    async computeMinAppHeigth () {
-        const offset = await (document.documentElement.clientHeight - this.header.current.clientHeight)
-        await this.setState({offset})
-    }
-
     render () {
         const {pathname} = this.props.location
-        const {offset} = this.state
         return <React.Fragment>{
             pathname !== '/login' && pathname !== '/NotFound' ? <React.Fragment>
-                <Header onRef={ header => this.header = header} />
-                <div ref={this.container} className={'flex hidden'} style={{height: `${offset}px`}}>
-                    <Scrollbar className={'basis-xs bg-darkblue'}
-                               style={{maxWidth: '220px'}}
-                               node={<SideBar routes={routes} />} />
-                    <Scrollbar className={'basis-max'} node={ <MinApp routes={routes} />} />
+                <div className={'app-main flex direction-column'}>
+                    <Header onRef={ header => this.header = header} />
+                    <div ref={this.container} className={'flex hidden flex-grow-min'}>
+                        <Scrollbar className={'basis-xs bg-darkblue'}
+                                   style={{maxWidth: '220px'}}
+                                   node={<SideBar routes={routes} />} />
+                        <Scrollbar className={'basis-max'} node={ <MinApp routes={routes} />} />
+                    </div>
                 </div>
             </React.Fragment>:<React.Fragment>
                 <Scrollbar className={'basis-max'} node={ <MinApp routes={routes} />} />

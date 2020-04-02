@@ -43,7 +43,7 @@ class Home extends Component {
     // 捕获子组件抛出的错误
     componentDidCatch(error, errorInfo) {}
     render () {
-        return (<div className={'padding-xs text-sm'} style={{height: '110vh'}}> 这是首页======</div>)
+        return (<div className={'padding-xs text-sm'}> 这是首页======</div>)
     }
 }
 
